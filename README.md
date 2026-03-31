@@ -14,6 +14,7 @@ Despliegue base de `tikitakas` con Docker Compose.
 
 1. Copia `.env.example` a `.env`
 2. Ajusta las imagenes a los tags publicados por Jenkins
+3. Copia las imagenes del frontend al directorio indicado en `FRONTEND_ASSETS_HOST_PATH`
 
 ```bash
 cp .env.example .env
@@ -50,3 +51,4 @@ El script hace:
 - El frontend llama al gateway en `http://localhost:8090`
 - `competitions` usa MySQL y Eureka por nombre de servicio dentro de la red Docker
 - Si cambias los nombres o tags de imagen en Jenkins, actualiza tambien `.env`
+- El frontend monta `${FRONTEND_ASSETS_HOST_PATH}` sobre `/usr/share/nginx/html/assets/images`
