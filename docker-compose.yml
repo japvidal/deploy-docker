@@ -54,6 +54,244 @@ services:
     networks:
       - tikitakas
 
+  competitions-temp:
+    image: ${COMPETITIONS_TEMP_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  players:
+    image: ${PLAYERS_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  players-temp:
+    image: ${PLAYERS_TEMP_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  teams:
+    image: ${TEAMS_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  teams-temp:
+    image: ${TEAMS_TEMP_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  positions:
+    image: ${POSITIONS_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  referees:
+    image: ${REFEREES_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  referees-temp:
+    image: ${REFEREES_TEMP_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  squads:
+    image: ${SQUADS_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  squads-temp:
+    image: ${SQUADS_TEMP_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  matchdayplayerslocal:
+    image: ${MATCHDAYPLAYERSLOCAL_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  matchdayplayersvisitante:
+    image: ${MATCHDAYPLAYERSVISITANTE_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  matchdayteamlocal:
+    image: ${MATCHDAYTEAMLOCAL_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  matchdayteamvisitante:
+    image: ${MATCHDAYTEAMVISITANTE_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
   zuul:
     image: ${ZUUL_IMAGE}
     restart: unless-stopped
@@ -66,6 +304,34 @@ services:
       eureka:
         condition: service_started
       competitions:
+        condition: service_started
+      competitions-temp:
+        condition: service_started
+      players:
+        condition: service_started
+      players-temp:
+        condition: service_started
+      teams:
+        condition: service_started
+      teams-temp:
+        condition: service_started
+      positions:
+        condition: service_started
+      referees:
+        condition: service_started
+      referees-temp:
+        condition: service_started
+      squads:
+        condition: service_started
+      squads-temp:
+        condition: service_started
+      matchdayplayerslocal:
+        condition: service_started
+      matchdayplayersvisitante:
+        condition: service_started
+      matchdayteamlocal:
+        condition: service_started
+      matchdayteamvisitante:
         condition: service_started
     networks:
       - tikitakas
