@@ -1,0 +1,88 @@
+name: tikitakas
+
+services:
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    networks:
+      - tikitakas
+
+  eureka:
+    image: ${EUREKA_IMAGE}
+    restart: unless-stopped
+    environment:
+      SERVER_PORT: 8761
+      EUREKA_CLIENT_REGISTER_WITH_EUREKA: "false"
+      EUREKA_CLIENT_FETCH_REGISTRY: "false"
+    ports:
+      - "8761:8761"
+    networks:
+      - tikitakas
+
+  competitions:
+    image: ${COMPETITIONS_IMAGE}
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      EUREKA_DEFAULT_ZONE: http://eureka:8761/eureka
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8081:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  zuul:
+    image: ${ZUUL_IMAGE}
+    restart: unless-stopped
+    environment:
+      SERVER_PORT: 8090
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka:8761/eureka
+    ports:
+      - "8090:8090"
+    depends_on:
+      eureka:
+        condition: service_started
+      competitions:
+        condition: service_started
+    networks:
+      - tikitakas
+
+  frontend:
+    image: ${FRONTEND_IMAGE}
+    restart: unless-stopped
+    ports:
+      - "4200:80"
+    depends_on:
+      zuul:
+        condition: service_started
+    networks:
+      - tikitakas
+
+volumes:
+  mysql_data:
+
+networks:
+  tikitakas:
+    driver: bridge
