@@ -1,55 +1,29 @@
-# Deploy Docker
+# deploy-docker
 
-Despliegue base de `tikitakas` con Docker Compose.
+`deploy-docker` contains the Docker Compose deployment stack for the Tikitakas `v0.1.0` platform. It is the operational entry point used to run the complete environment with MySQL, Eureka, the gateway, the domain microservices, and the Angular frontend.
 
-## Servicios incluidos
+The repository is designed to work with container images produced by the Jenkins pipelines of the backend and frontend repositories. Instead of building source code locally, this project focuses on orchestration: selecting the correct image tags, wiring services together on the Docker network, mounting the frontend image assets from a host volume, and exposing the main public ports of the stack.
 
-- `mysql`
-- `eureka`
-- `competitions`
-- `zuul`
-- `frontend`
-
-## Preparacion
-
-1. Copia `.env.example` a `.env`
-2. Ajusta las imagenes a los tags publicados por Jenkins
-3. Copia las imagenes del frontend al directorio indicado en `FRONTEND_ASSETS_HOST_PATH`
+Typical setup:
 
 ```bash
 cp .env.example .env
-```
-
-## Arranque
-
-```bash
 docker compose pull
 docker compose up -d
 ```
 
-## Actualizacion
-
-```bash
-./update.sh
-```
-
-El script hace:
-
-- `docker compose pull`
-- `docker compose up -d`
-- `docker compose ps`
-
-## URLs utiles
+Main public endpoints:
 
 - Frontend: `http://localhost:4200`
-- Zuul: `http://localhost:8090`
+- Gateway: `http://localhost:8090`
 - Eureka: `http://localhost:8761`
-- MySQL: `localhost:3333`
+- MySQL from host: `localhost:3333`
 
-## Notas
+Important implementation details:
 
-- El frontend llama al gateway en `http://localhost:8090`
-- `competitions` usa MySQL y Eureka por nombre de servicio dentro de la red Docker
-- Los microservicios siguen conectando a MySQL por `mysql:3306` dentro de Docker; el puerto `3333` solo aplica al acceso desde el host
-- Si cambias los nombres o tags de imagen en Jenkins, actualiza tambien `.env`
-- El frontend monta `${FRONTEND_ASSETS_HOST_PATH}` sobre `/usr/share/nginx/html/assets/images`
+- backend services connect to MySQL internally through `mysql:3306`
+- the MySQL host port `3333` is only for access from the host machine
+- frontend static image assets are mounted from `FRONTEND_ASSETS_HOST_PATH`
+- the helper script `update.sh` performs `pull`, `up -d`, and `ps`
+
+This repository should be updated whenever a new image tag, deployment variable, mounted volume, or network-level integration becomes part of the platform release. In short, it is the infrastructure companion of Tikitakas and the fastest way to bring the whole environment up in a reproducible way.
